@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-analytics.js";
-import { getFirestore, collection, doc, getDoc, addDoc, getDocs, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDoc, addDoc, getDocs, setDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
 import { firebaseConfig } from "./credentials.js";
 
 
@@ -33,7 +33,8 @@ async function removeFreeFireTopUp(id){
 }
 
 async function getFreeFireTopUps(){
-  var querySnap = await getDocs(collection(freefireRef, "topups"));
+  var q = query(collection(freefireRef, "topups"), orderBy("amount"));
+  var querySnap = await getDocs(q);
   var topups = [];
   querySnap.forEach((doc) => {
     topups.push(doc.data());
